@@ -10,10 +10,18 @@
 <meta property="og:description" content="Гайд для Жени: Claude-наставник, выбор IT-профессии и путь к удалённой работе.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://jummzy.github.io/solovey-guide/">
-<meta property="og:image" content="https://jummzy.github.io/solovey-guide/i/crystal.png">
+<meta property="og:image" content="https://jummzy.github.io/solovey-guide/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#0e1117">
 <link rel="icon" href="i/crystal.png">
-<link rel="apple-touch-icon" href="i/crystal.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Путь Соловья">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <script>
@@ -249,6 +257,18 @@ img { max-width: 100%; }
 .skill .file > div { min-width: 0; }
 .skill .file .dl { margin-left: auto; flex: none; font: 600 14px/1 var(--f-body); color: var(--ink); text-decoration: none; background: var(--bronze); border: 1px solid var(--gold-dim); border-radius: 8px; padding: 10px 14px; }
 .skill .file .dl:active { border-color: var(--gold); }
+/* Следующий шаг, отправка прогресса, установка на экран */
+.next { scroll-margin-top: 130px; border: 1px solid var(--gold-dim); background: var(--bg-2); border-radius: 12px; padding: 14px 16px; display: grid; gap: 6px; }
+.next-k { font-size: 12.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--gold); font-weight: 600; }
+.next-w { font-size: 13.5px; color: var(--ink-2); }
+.btn { justify-self: start; font: 600 14px/1 var(--f-body); color: var(--ink); text-decoration: none; cursor: pointer; background: var(--bronze); border: 1px solid var(--gold-dim); border-radius: 8px; padding: 10px 14px; }
+.btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.q.pulse { box-shadow: 0 0 0 2px var(--gold); transition: box-shadow .3s; }
+.share-text { font-size: 14px; background: var(--bg-3); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; -webkit-user-select: all; user-select: all; overflow-wrap: anywhere; }
+.lvl { text-decoration: none; }
+.pwa { display: flex; gap: 12px; align-items: flex-start; font-size: 14.5px; color: var(--ink-2); border-top: 1px solid var(--line); padding-top: 14px; }
+.pwa .ico { width: 32px; height: 32px; border-radius: 8px; }
+.pwa .ico svg { width: 17px; height: 17px; }
 </style>
 </head>
 <body>
@@ -275,7 +295,7 @@ img { max-width: 100%; }
   <div class="wrap">
     <div class="bar-row">
       <a class="brand" href="#top"><img src="i/crystal.png" alt="">Путь Соловья</a>
-      <div class="lvl"><span id="xpTop">0 / 100</span><b id="lvlTop">Ур. 1</b></div>
+      <a class="lvl" href="#next" aria-label="Уровень и следующее задание"><span id="xpTop">0 / 100</span><b id="lvlTop">Ур. 1</b></a>
     </div>
     <div class="xpbar" aria-hidden="true"><i id="barTop"></i></div>
     <nav class="chips" aria-label="Главы">
@@ -315,7 +335,16 @@ img { max-width: 100%; }
         <div class="xpline"><span id="lvlBig">Уровень 1</span><span id="xpBig">0 / 100 опыта</span></div>
         <div class="xpbar" aria-hidden="true"><i id="barBig"></i></div>
         <p class="small muted">Отмечай выполненные задания: опыт копится, уровень растёт. Прогресс сохраняется на этом устройстве.</p>
+        <button class="btn" type="button" id="shareBtn">Отправить прогресс</button>
+        <p class="share-text" id="shareText" hidden></p>
       </div>
+    </div>
+
+    <div class="next" id="next" aria-live="polite">
+      <span class="next-k">Следующее задание</span>
+      <span class="next-w" id="nextWhere"></span>
+      <p id="nextText"></p>
+      <a class="btn" href="#top" id="nextGo">Перейти к заданию</a>
     </div>
 
     <ol class="map" aria-label="Карта пути">
@@ -325,6 +354,8 @@ img { max-width: 100%; }
       <li><a href="#ch4"><img class="slot" src="i/letter.png" alt=""><span class="t"><b>Глава 4. Гильдия</b><span>поиск работы</span></span><span class="done-mark" data-ch-mark="ch4"></span></a></li>
       <li><a href="#final"><img class="slot" src="i/badge.png" alt=""><span class="t"><b>Финал. Профессия</b><span>первая удалённая работа</span></span><span class="done-mark" data-ch-mark="final"></span></a></li>
     </ol>
+
+    <p class="pwa"><span class="ico"><svg><use href="#i-download"/></svg></span><span>Сохрани гайд на экран iPhone: открой его в Safari, нажми «Поделиться» и выбери «На экран „Домой“». Он будет открываться как отдельное приложение.</span></p>
   </section>
 
   <!-- ГЛАВА 1 -->
@@ -380,7 +411,7 @@ img { max-width: 100%; }
           <label class="q" for="q-files"><input type="checkbox" id="q-files" data-xp="10"><span class="box"></span><span class="qt">Открой <kbd>Settings</kbd> → <kbd>Capabilities</kbd> и включи создание файлов — пункт <kbd>Create and edit files</kbd>. В старом меню он называется <kbd>Code execution and file creation</kbd>. Без него навыки не работают.</span><span class="xp">+10</span></label>
           <label class="q" for="q-skill"><input type="checkbox" id="q-skill" data-xp="20"><span class="box"></span><span class="qt">Открой <kbd>Customize</kbd> → <kbd>Skills</kbd>, нажми <kbd>+</kbd> → <kbd>Create skill</kbd> → <kbd>Upload a skill</kbd> и выбери архив <b>solovey-mentor.zip</b>.</span><span class="xp">+20</span></label>
           <label class="q" for="q-on"><input type="checkbox" id="q-on" data-xp="10"><span class="box"></span><span class="qt">Проверь, что навык <b>solovey-mentor</b> появился в списке и включён.</span><span class="xp">+10</span></label>
-          <label class="q" for="q-hello"><input type="checkbox" id="q-hello" data-xp="20"><span class="box"></span><span class="qt">Напиши Claude «Привет, я Женя. Начинаем?» — он представится, покажет маршрут и даст первое задание.</span><span class="xp">+20</span></label>
+          <label class="q" for="q-hello"><input type="checkbox" id="q-hello" data-xp="20"><span class="box"></span><span class="qt">Напиши Claude «Привет, я Женя. Начинаем мой путь в IT?» — он представится, покажет маршрут и даст первое задание.</span><span class="xp">+20</span></label>
         </div>
         <p class="small muted">Названия кнопок иногда меняются. Не нашёл — сфотографируй экран и спроси Claude, куда нажать, или пиши мне. Подробно — в <a href="https://support.claude.com/en/articles/12512180" target="_blank" rel="noopener">справке Anthropic про навыки</a>.</p>
       </div>
@@ -670,7 +701,68 @@ img { max-width: 100%; }
       var mark = document.querySelector('[data-ch-mark="' + id + '"]');
       if (mark) mark.textContent = full ? 'пройдено' : (done ? done + ' / ' + list.length : '');
     });
+    updateNext();
   }
+
+  // Карточка «Следующее задание»: первое неотмеченное задание по порядку
+  var nextTarget = null;
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function chapterOf(b) {
+    var sec = b.closest('[data-ch]');
+    var h = sec && sec.querySelector('h2');
+    return h ? h.textContent : '';
+  }
+  function updateNext() {
+    var b = boxes.filter(function (x) { return !x.checked; })[0];
+    var go = document.getElementById('nextGo');
+    nextTarget = b ? b.closest('.q') : null;
+    if (!b) {
+      document.getElementById('nextWhere').textContent = '';
+      document.getElementById('nextText').textContent = 'Все задания выполнены. Ты прошёл весь путь — дальше качаешься уже на работе.';
+      go.hidden = true;
+      return;
+    }
+    var t = nextTarget.querySelector('.qt').textContent.replace(/\s+/g, ' ').trim();
+    if (t.length > 140) t = t.slice(0, 137).replace(/\s\S*$/, '') + '…';
+    document.getElementById('nextWhere').textContent = chapterOf(b);
+    document.getElementById('nextText').textContent = t;
+    go.hidden = false;
+  }
+  document.getElementById('nextGo').addEventListener('click', function (e) {
+    if (!nextTarget) return;
+    e.preventDefault();
+    var el = nextTarget;
+    el.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
+    el.classList.add('pulse');
+    setTimeout(function () { el.classList.remove('pulse'); }, 1600);
+  });
+
+  // Отправить прогресс другу: меню «Поделиться» на телефоне, иначе копирование
+  document.getElementById('shareBtn').addEventListener('click', function () {
+    var btn = this;
+    var done = boxes.filter(function (x) { return x.checked; }).length;
+    var b = boxes.filter(function (x) { return !x.checked; })[0];
+    var url = location.href.split('#')[0];
+    var text = 'Путь Соловья: ' + document.getElementById('lvlTop').textContent + ', выполнено ' + done + ' из ' + boxes.length + ' заданий' + (b ? '. Сейчас: ' + chapterOf(b) : '. Весь путь пройден!');
+    function said(msg) { btn.textContent = msg; setTimeout(function () { btn.textContent = 'Отправить прогресс'; }, 2200); }
+    function showText() {
+      var p = document.getElementById('shareText');
+      p.textContent = text + ' ' + url;
+      p.hidden = false;
+      var r = document.createRange(); r.selectNodeContents(p);
+      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      said('Скопируй текст ниже');
+    }
+    if (navigator.share) {
+      navigator.share({ text: text, url: url }).catch(function (e) { if (e && e.name !== 'AbortError') showText(); });
+      return;
+    }
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text + ' ' + url).then(function () { said('Скопировано — вставь в Телеграм'); }, showText);
+    } else {
+      showText();
+    }
+  });
 
   boxes.forEach(function (b) {
     b.addEventListener('change', function () {
